@@ -3,10 +3,19 @@ package ru.netology.manager;
 import ru.netology.domain.Film;
 
 public class AfishaManager {
-
+    private int lenght = 10;
     private Film[] items = new Film[0];
 
-    public void add(Film item) {
+    public AfishaManager(int lenght)
+    {
+        this.lenght = lenght;
+    }
+
+    public AfishaManager() {
+
+    }
+
+    public void save(Film item) {
         // создаём новый массив размером на единицу больше
         int length = items.length + 1;
         Film[] tmp = new Film[length];
@@ -23,28 +32,13 @@ public class AfishaManager {
     }
 
     public Film[] getAll() {
-        Film[] result = new Film[items.length];
+        Film[] result = new Film[Math.min(items.length, lenght)];
         // перебираем массив в прямом порядке
         // но кладём в результаты в обратном
-        for (int i = 0; i < result.length; i++) {
+        for (int i = 0; i < Math.min(items.length, lenght); i++) {
             int index = items.length - i - 1;
             result[i] = items[index];
         }
         return result;
-    }
-
-    // наивная реализация
-    public void removeById(int id) {
-        int length = items.length - 1;
-        Film[] tmp = new Film[length];
-        int index = 0;
-        for (Film item : items) {
-            if (item.getId() != id) {
-                tmp[index] = item;
-                index++;
-            }
-        }
-        // меняем наши элементы
-        items = tmp;
     }
 }
