@@ -31,11 +31,18 @@ class AfishaManagerTest {
         manager.save(film7);
         manager.save(film8);
         manager.save(film9);
-        manager.save(film10);
     }
 
     @Test
-    void shouldSave() {
+    void shouldGetLessThenLengthFilms() {
+        Film[] expected = new Film[]{film9, film8, film7, film6, film5, film4, film3, film2, film1};
+        Film[] actual = manager.getAll();
+        assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    void shouldGetMoreThenLengthFilms() {
+        manager.save(film10);
         manager.save(film11);
         Film[] expected = new Film[]{film11, film10, film9, film8, film7, film6, film5, film4, film3, film2};
         Film[] actual = manager.getAll();
@@ -43,7 +50,8 @@ class AfishaManagerTest {
     }
 
     @Test
-    void shouldGetAll() {
+    void shouldGetEqualLengthFilms() {
+        manager.save(film10);
         Film[] expected = new Film[]{film10, film9, film8, film7, film6, film5, film4, film3, film2, film1};
         Film[] actual = manager.getAll();
         assertArrayEquals(expected, actual);
