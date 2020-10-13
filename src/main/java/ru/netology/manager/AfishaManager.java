@@ -1,44 +1,49 @@
 package ru.netology.manager;
 
 import ru.netology.domain.Film;
+import ru.netology.repository.*;
 
 public class AfishaManager {
+    private AfishaRepository repository;
     private int lenght = 10;
-    private Film[] items = new Film[0];
 
-    public AfishaManager(int lenght)
+    public AfishaManager() { }
+
+    public AfishaManager(AfishaRepository repository) {
+        this.repository = repository;
+    }
+
+    public AfishaManager(AfishaRepository repository, int lenght)
     {
+        this.repository = repository;
         this.lenght = lenght;
     }
 
-    public AfishaManager() {
-
-    }
-
     public void save(Film item) {
-        // создаём новый массив размером на единицу больше
-        int length = items.length + 1;
-        Film[] tmp = new Film[length];
-        // itar + tab
-        // копируем поэлементно
-        // for (int i = 0; i < items.length; i++) {
-        //   tmp[i] = items[i];
-        // }
-        System.arraycopy(items, 0, tmp, 0, items.length);
-        // кладём последним наш элемент
-        int lastIndex = tmp.length - 1;
-        tmp[lastIndex] = item;
-        items = tmp;
+        repository.save(item);
     }
 
     public Film[] getAll() {
-        Film[] result = new Film[Math.min(items.length, lenght)];
+        Film[] repoFilms = repository.findAll();
+        Film[] result = new Film[Math.min(repoFilms.length, lenght)];
         // перебираем массив в прямом порядке
         // но кладём в результаты в обратном
-        for (int i = 0; i < Math.min(items.length, lenght); i++) {
-            int index = items.length - i - 1;
-            result[i] = items[index];
+        for (int i = 0; i < Math.min(repoFilms.length, lenght); i++) {
+            int index = repoFilms.length - i - 1;
+            result[i] = repoFilms[index];
         }
         return result;
+    }
+
+    public void removeById(int id) {
+        repository.removeById(id);
+    }
+
+    public Film findById(int id) {
+        return repository.findById(id);
+    }
+
+    public void removeAll() {
+        repository.removeAll();
     }
 }
