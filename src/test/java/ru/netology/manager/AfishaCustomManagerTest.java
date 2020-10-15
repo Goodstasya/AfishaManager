@@ -18,7 +18,7 @@ class AfishaCustomManagerTest {
     private AfishaRepository repository;
 
     @InjectMocks
-    private AfishaManager manager;
+    private AfishaManager manager = new AfishaManager(repository, 5);
 
     Film film1 = new Film(1,1,"film1");
     Film film2 = new Film(2,2,"film2");
@@ -64,7 +64,7 @@ class AfishaCustomManagerTest {
     void shouldGetMoreThenLengthFilms() {
         manager.save(film5);
         manager.save(film6);
-        Film[] returned = new Film[]{film2, film3, film4, film5, film6};
+        Film[] returned = new Film[]{film1, film2, film3, film4, film5, film6};
         doReturn(returned).when(repository).findAll();
         Film[] expected = new Film[]{film6, film5, film4, film3, film2};
         Film[] actual = manager.getAll();
